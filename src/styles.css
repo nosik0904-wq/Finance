@@ -1691,3 +1691,61 @@ h2 {
   justify-self: start;
   margin-top: auto;
 }
+
+/* Cloud sync phase 1 */
+.sync-chip {
+  width: calc(100% - 24px);
+  margin: 6px 12px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.08);
+  color: inherit;
+  padding: 8px 10px;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+.sync-chip.connected {
+  border-color: rgba(82, 190, 128, 0.45);
+  background: rgba(82, 190, 128, 0.16);
+}
+.sync-chip.conflict {
+  border-color: rgba(255, 196, 87, 0.6);
+  background: rgba(255, 196, 87, 0.2);
+}
+.cloud-panel.ready {
+  border-color: rgba(82, 190, 128, 0.28);
+}
+.cloud-auth-grid,
+.cloud-actions-grid,
+.cloud-connected-grid {
+  display: grid;
+  gap: 14px;
+}
+.cloud-auth-grid {
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  align-items: end;
+}
+.cloud-actions-grid {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+.cloud-connected-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  align-items: start;
+}
+.cloud-connected-grid > div:not(.preset-row):not(.inline-warning) {
+  display: grid;
+  gap: 6px;
+}
+.invite-code {
+  display: inline-flex;
+  width: fit-content;
+  letter-spacing: 0.08em;
+  font-weight: 800;
+  border: 1px dashed rgba(255,255,255,0.28);
+  border-radius: 12px;
+  padding: 8px 12px;
+  background: rgba(255,255,255,0.07);
+}
+.cloud-buttons {
+  align-self: center;
+}

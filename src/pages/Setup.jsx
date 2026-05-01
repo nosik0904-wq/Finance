@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import CloudSyncPanel from "../components/CloudSyncPanel";
 import MetricCard from "../components/MetricCard";
 import { ProgressBar } from "../components/Charts";
 import { addMonthsClamped, currency, daysBetween } from "../logic/financeCalculations";
@@ -18,7 +19,7 @@ function Field({ label, helper, children }) {
   );
 }
 
-export default function Setup({ state, setState, sim, clearAllData, onComplete }) {
+export default function Setup({ state, setState, sim, clearAllData, onComplete, cloudSync }) {
   const [step, setStep] = useState(0);
   const [confirmClear, setConfirmClear] = useState(false);
   const [importText, setImportText] = useState("");
@@ -240,11 +241,13 @@ export default function Setup({ state, setState, sim, clearAllData, onComplete }
         </article>
       )}
 
+      {cloudSync && <CloudSyncPanel cloudSync={cloudSync} householdName={state.household.householdName} />}
+
       <article className="panel backup-panel">
         <div className="panel-heading">
           <div>
             <h2>Backup and restore</h2>
-            <p>Download a restore backup before going live, then save it to Google Drive. CSV files are for Google Sheets and debugging.</p>
+            <p>Download a restore backup before going live, then save it to Google Drive. Cloud sync is helpful, but backups are the rollback plan. CSV files are for Google Sheets and debugging.</p>
           </div>
           <span className="pill">Local device storage</span>
         </div>
@@ -291,7 +294,7 @@ export default function Setup({ state, setState, sim, clearAllData, onComplete }
         </details>
         {backupMessage && <p className="helper-text">{backupMessage}</p>}
         <div className="inline-note">
-          Local-only MVP: data is saved in this browser. Recommended routine: download the full backup JSON weekly and save it to Google Drive. Use the CSV files for Google Sheets; use the JSON file for restore.
+          Backup routine: download the full backup JSON weekly and save it to Google Drive. Cloud sync shares the live household state; JSON backup is still your recovery file. Use the CSV files for Google Sheets; use the JSON file for restore.
         </div>
       </article>
 

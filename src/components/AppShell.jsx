@@ -11,7 +11,16 @@ const navItems = [
   ["setup", "Setup"],
 ];
 
-export default function AppShell({ page, setPage, household, alertCount, children }) {
+function cloudLabel(cloud) {
+  if (!cloud?.configured) return "Local";
+  if (cloud.saving) return "Saving";
+  if (cloud.conflict) return "Refresh";
+  if (cloud.householdId) return `Cloud r${cloud.revision ?? "—"}`;
+  if (cloud.session) return "Sign in";
+  return "Local";
+}
+
+export default function AppShell({ page, setPage, household, alertCount, cloud, children }) {
   return (
     <div className="app-shell">
       <aside className="sidebar">
@@ -22,6 +31,9 @@ export default function AppShell({ page, setPage, household, alertCount, childre
             <small>{household.householdName}</small>
           </div>
         </div>
+        <button className={`sync-chip ${cloud?.householdId ? "connected" : ""} ${cloud?.conflict ? "conflict" : ""}`} onClick={() => setPage("setup")}>
+          {cloudLabel(cloud)}
+        </button>
         <nav className="nav-list" aria-label="Primary">
           {navItems.map(([id, label]) => (
             <button className={`${page === id ? "active" : ""} ${id === "setup" ? "config-nav" : ""}`} key={id} onClick={() => setPage(id)}>

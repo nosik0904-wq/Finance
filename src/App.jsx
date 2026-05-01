@@ -11,16 +11,21 @@ import StressTest from "./pages/StressTest";
 import Archive from "./pages/Archive";
 import { applyBillPaid, bringBillForward, deferBill, ensureMortgageEntry, forecastPayCycle, normalizeState, simulateFortnight } from "./logic/engine";
 import { appendActionLog, createStateSnapshot, normalizeAuditTrail } from "./logic/auditTrail";
+import { useCloudSync } from "./logic/useCloudSync";
 
 const today = "2026-04-29";
 const storageKey = "household-finance-os";
 
+function normalizeStateForApp(input) {
+  return normalizeAuditTrail(ensureMortgageEntry(normalizeState(input, sampleState)));
+}
+
 function loadState() {
   try {
     const stored = JSON.parse(localStorage.getItem(storageKey) || "null");
-    return normalizeAuditTrail(ensureMortgageEntry(normalizeState(stored, sampleState)));
+    return normalizeStateForApp(stored);
   } catch {
-    return normalizeAuditTrail(ensureMortgageEntry(sampleState));
+    return normalizeStateForApp(sampleState);
   }
 }
 
@@ -38,6 +43,7 @@ function sanitizeBillPatch(patch) {
 export default function App() {
   const [page, setPage] = useState("dashboard");
   const [state, setState] = useState(() => loadState());
+  const cloudSync = useCloudSync({ state, setState, normalizeRemoteState: normalizeStateForApp, today });
   const sim = useMemo(() => simulateFortnight(state, today), [state]);
   const kimCycle = useMemo(() => forecastPayCycle(state, "B"), [state]);
 
@@ -69,24 +75,22 @@ export default function App() {
     setState((current) => {
       const before = createStateSnapshot(current);
       const rawNext = typeof updater === "function" ? updater(current) : updater;
-      const normalizedNext = normalizeAuditTrail(ensureMortgageEntry(rawNext));
+      const normalizedNext = normalizeStateForApp(rawNext);
       const after = createStateSnapshot(normalizedNext);
-      return appendActionLog(
-        normalizedNext,
-        {
-          type: action.type || "state_update",
-          title: action.title || "App data changed",
-          detail: action.detail || "Change made from the app UI.",
-          source: action.source || page,
-          entityType: action.entityType || "",
-          entityId: action.entityId || "",
-          amount: action.amount,
-          date: today,
-          force: action.force ?? true,
-        },
-        before,
-        after,
-      );
+      const event = {
+        type: action.type || "state_update",
+        title: action.title || "App data changed",
+        detail: action.detail || "Change made from the app UI.",
+        source: action.source || page,
+        entityType: action.entityType || "",
+        entityId: action.entityId || "",
+        amount: action.amount,
+        date: today,
+        force: action.force ?? true,
+      };
+      const loggedNext = appendActionLog(normalizedNext, event, before, after);
+      cloudSync.saveCloudState(loggedNext, event, before, after);
+      return loggedNext;
     });
   };
 
@@ -132,7 +136,7 @@ export default function App() {
   const moveBillForward = (billId, targetDate) => updateState((current) => bringBillForward(current, billId, targetDate), { type: "bill_brought_forward", title: "Bill brought forward", detail: `Moved to ${targetDate}`, entityType: "bill", entityId: billId });
   const clearAllData = () => {
     localStorage.removeItem(storageKey);
-    setState(normalizeAuditTrail(ensureMortgageEntry(blankState)));
+    setState(normalizeStateForApp(blankState));
     setPage("setup");
   };
 
@@ -144,11 +148,11 @@ export default function App() {
     scenarios: <Scenarios state={state} today={today} />,
     stress: <StressTest state={state} today={today} />,
     archive: <Archive state={state} today={today} />,
-    setup: <Setup state={state} setState={updateState} sim={sim} clearAllData={clearAllData} onComplete={() => setPage("dashboard")} />,
+    setup: <Setup state={state} setState={updateState} sim={sim} clearAllData={clearAllData} onComplete={() => setPage("dashboard")} cloudSync={cloudSync} />,
   };
 
   return (
-    <AppShell page={page} setPage={setPage} household={state.household} alertCount={sim.flagged.length + (kimCycle.goesNegative ? 1 : 0)}>
+    <AppShell page={page} setPage={setPage} household={state.household} alertCount={sim.flagged.length + (kimCycle.goesNegative ? 1 : 0)} cloud={cloudSync.cloud}>
       {pages[page]}
     </AppShell>
   );
