@@ -1,0 +1,22 @@
+{
+  "name": "finance-os",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "test:rollover": "node test-fixed-rollover.mjs",
+    "test:topup": "node test-loan-topup.mjs",
+    "test:extra": "node test-extra-repayment.mjs",
+    "test:all": "node test-fixed-rollover.mjs && node test-loan-topup.mjs && node test-extra-repayment.mjs && node test-audit-debug.mjs",
+    "test:audit": "node test-audit-debug.mjs"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
