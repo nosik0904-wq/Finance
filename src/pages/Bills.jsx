@@ -38,7 +38,92 @@ export default function Bills({ state, sim, updateBill, markPaid, deferBill, del
         Auto means Kim's external account pays first. Carl's offset is overflow only when SWAN stays protected. Offset contributions are never treated as expenses.
       </div>
 
+      <div className="mobile-bill-list" aria-label="Mobile bill list">
+        {rows.map((bill) => {
+          const variance = getBillVariance(bill);
+          const needsReview = ["flagged", "partial", "unable to pay", "deferred"].includes(bill.simulatedStatus || bill.status);
+          return (
+            <article className={`mobile-bill-card ${needsReview ? "needs-review" : ""} ${bill.locked ? "locked-row" : ""}`} key={`mobile-${bill.id}`}>
+              <div className="mobile-bill-head">
+                <div>
+                  <input
+                    className="mobile-bill-name"
+                    disabled={bill.locked}
+                    value={bill.name}
+                    onChange={(event) => updateBill(bill.id, { name: event.target.value })}
+                  />
+                  <small>{bill.locked ? "Locked mortgage" : bill.category || "Uncategorised"}</small>
+                </div>
+                <div className="row-end">
+                  <strong>{currency(bill.amount)}</strong>
+                  <StatusBadge status={bill.simulatedStatus || bill.status} />
+                </div>
+              </div>
+
+              <div className="mobile-bill-meta">
+                <span>Due {shortDate(bill.dueDate)}</span>
+                <span>{bill.recurrence}</span>
+                <span className={variance > 20 ? "negative-cell" : variance > 5 ? "warning-cell" : "positive-cell"}>{variance.toFixed(0)}% variance</span>
+              </div>
+
+              <div className="mobile-bill-edit-grid">
+                <label className="field">
+                  <span>Amount</span>
+                  <input disabled={bill.locked} type="number" value={bill.amount} onChange={(event) => setNumber(bill.id, "amount", event.target.value)} />
+                </label>
+                <label className="field">
+                  <span>Due date</span>
+                  <input disabled={bill.locked} type="date" value={bill.dueDate} onChange={(event) => updateBill(bill.id, { dueDate: event.target.value })} />
+                </label>
+              </div>
+
+              {expanded === bill.id && (
+                <div className="mobile-bill-more">
+                  <div className="mobile-bill-edit-grid">
+                    <label className="field">
+                      <span>Category</span>
+                      <input disabled={bill.locked} value={bill.category} onChange={(event) => updateBill(bill.id, { category: event.target.value })} />
+                    </label>
+                    <label className="field">
+                      <span>Frequency</span>
+                      <select disabled={bill.locked} value={bill.recurrence} onChange={(event) => updateBill(bill.id, { recurrence: event.target.value })}>
+                        {recurrenceOptions.map((option) => <option key={option} value={option}>{option}</option>)}
+                      </select>
+                    </label>
+                    <label className="field">
+                      <span>Status</span>
+                      <select disabled={bill.locked} value={bill.status} onChange={(event) => updateBill(bill.id, { status: event.target.value })}>
+                        {statusOptions.map((status) => <option key={status} value={status}>{status}</option>)}
+                      </select>
+                    </label>
+                    <label className="field">
+                      <span>Paid from</span>
+                      <select disabled={bill.locked} value={bill.accountRule} onChange={(event) => updateBill(bill.id, { accountRule: event.target.value })}>
+                        {accountOptions.map((option) => <option key={option} value={option}>{option}</option>)}
+                      </select>
+                    </label>
+                  </div>
+                  <div className="audit-box">
+                    {(bill.auditLog || []).length === 0 ? <span>No audit entries yet.</span> : bill.auditLog.slice(0, 3).map((entry, index) => (
+                      <p key={`${entry.timestamp}-${index}`}>{entry.timestamp}: {entry.action} ({currency(entry.amount)})</p>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="bill-actions mobile-card-actions">
+                <button onClick={() => markPaid(bill.id)}>Mark paid</button>
+                <button className="mini-action secondary" disabled={bill.locked || bill.dueDate < today} onClick={() => deferBill(bill.id)}>Defer</button>
+                <button className="mini-action secondary" onClick={() => setExpanded(expanded === bill.id ? "" : bill.id)}>{expanded === bill.id ? "Less" : "More"}</button>
+                <button className="mini-action danger" disabled={bill.locked} onClick={() => deleteBill(bill.id)}>Delete</button>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+
       <div className="bill-ledger-wrap">
+
         <table className="bill-ledger">
           <thead>
             <tr>

@@ -1749,3 +1749,549 @@ h2 {
 .cloud-buttons {
   align-self: center;
 }
+
+/* Mobile-first presentation layer: keeps desktop/tablet layout intact, gives phones a clean feed. */
+.mobile-topbar,
+.mobile-bottom-nav,
+.mobile-more-panel,
+.mobile-bill-list {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  body {
+    overflow-x: hidden;
+    background: #f3f6f1;
+  }
+
+  .app-shell {
+    display: block;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  .sidebar {
+    display: none !important;
+  }
+
+  .mobile-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    min-height: 4.25rem;
+    padding: calc(0.75rem + env(safe-area-inset-top)) 0.9rem 0.7rem;
+    border-bottom: 1px solid rgba(24, 34, 30, 0.08);
+    background: rgba(248, 250, 246, 0.94);
+    backdrop-filter: blur(18px);
+  }
+
+  .mobile-topbar strong,
+  .mobile-topbar small {
+    display: block;
+  }
+
+  .mobile-topbar strong {
+    font-size: 1rem;
+    line-height: 1.1;
+  }
+
+  .mobile-topbar small {
+    margin-top: 0.14rem;
+    color: #69756f;
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  .sync-chip.mobile-sync {
+    width: auto;
+    max-width: 8.8rem;
+    margin: 0;
+    border-color: rgba(24, 34, 30, 0.1);
+    background: #fff;
+    color: #26332e;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sync-chip.mobile-sync.connected {
+    border-color: rgba(31, 122, 77, 0.28);
+    background: #e9f7ee;
+    color: #12623b;
+  }
+
+  .sync-chip.mobile-sync.conflict {
+    border-color: rgba(205, 126, 40, 0.38);
+    background: #fff4df;
+    color: #8b520f;
+  }
+
+  .main-panel,
+  .main-panel:has(.full-bleed-page) {
+    width: 100%;
+    max-width: none;
+    padding: 0.9rem 0.75rem calc(6.7rem + env(safe-area-inset-bottom));
+  }
+
+  .page-stack {
+    gap: 0.85rem;
+  }
+
+  .page-header {
+    display: grid;
+    gap: 0.75rem;
+    padding: 0.1rem 0 0.25rem;
+  }
+
+  .page-header h1 {
+    font-size: clamp(2rem, 13vw, 3.1rem);
+    line-height: 0.95;
+  }
+
+  .page-header .section-copy,
+  .hero-dashboard p:not(.eyebrow),
+  .tile-drawer p,
+  .panel p {
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+
+  .header-actions,
+  .wizard-actions,
+  .bill-actions,
+  .preset-row,
+  .row-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .header-actions button,
+  .wizard-actions button,
+  .bill-actions button,
+  .preset-row button,
+  .row-actions button,
+  .primary-action,
+  .danger-button,
+  .link-button {
+    min-height: 2.9rem;
+  }
+
+  .primary-action {
+    position: static !important;
+    width: 100%;
+    text-align: center;
+  }
+
+  .hero-dashboard {
+    gap: 1rem;
+    border-radius: 1.2rem;
+    padding: 1.2rem;
+  }
+
+  .hero-dashboard h1 {
+    font-size: clamp(2.55rem, 18vw, 4rem);
+  }
+
+  .health-score {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 0.25rem 1rem;
+    padding: 0.9rem;
+  }
+
+  .health-score strong {
+    grid-row: 1 / span 2;
+    grid-column: 2;
+    font-size: clamp(2.6rem, 18vw, 4rem);
+  }
+
+  .rhythm-strip {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.45rem;
+    padding: 0.75rem;
+  }
+
+  .rhythm-strip span {
+    width: 100%;
+    border-radius: 0.8rem;
+  }
+
+  .insight-grid,
+  .metrics-grid,
+  .metrics-grid.single,
+  .report-grid,
+  .two-column,
+  .scenario-layout,
+  .time-machine-layout,
+  .split-loans,
+  .flow-lanes,
+  .backup-grid,
+  .checklist-grid,
+  .review-grid,
+  .cloud-auth-grid,
+  .cloud-actions-grid,
+  .cloud-connected-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .insight-tile {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    min-height: 5rem;
+    padding: 0.9rem;
+  }
+
+  .insight-tile span,
+  .insight-tile small {
+    grid-column: 1;
+  }
+
+  .insight-tile strong {
+    grid-row: 1 / span 2;
+    grid-column: 2;
+    font-size: clamp(1.65rem, 9vw, 2.2rem);
+    text-align: right;
+  }
+
+  .tile-drawer,
+  .panel,
+  .metric-card,
+  .bill-card,
+  .chart-card,
+  .day-card,
+  .verdict {
+    border-radius: 1rem;
+    padding: 0.9rem;
+  }
+
+  .panel-heading,
+  .section-heading,
+  .month-heading,
+  .day-head,
+  .bill-main {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+    align-items: start;
+  }
+
+  .panel-heading .link-button,
+  .section-heading .link-button {
+    justify-self: start;
+  }
+
+  .cycle-summary {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ledger-row,
+  .alert-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .ledger-row .row-end,
+  .alert-row .row-end {
+    width: 100%;
+    text-align: left;
+  }
+
+  .chart-card {
+    min-height: auto;
+  }
+
+  .donut-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .bar-chart {
+    gap: 0.25rem;
+    overflow-x: auto;
+    padding-bottom: 0.35rem;
+  }
+
+  .bar-item {
+    min-width: 1.6rem;
+  }
+
+  .form-grid,
+  .form-grid.compact {
+    grid-template-columns: 1fr !important;
+  }
+
+  .field input,
+  .field select,
+  .bill-actions input,
+  .bill-actions select,
+  input,
+  select {
+    min-height: 2.85rem;
+    font-size: 1rem;
+  }
+
+  .flow-diagram,
+  .flow-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .flow-diagram i,
+  .flow-steps i {
+    width: 2px;
+    height: 1.1rem;
+    justify-self: center;
+  }
+
+  .wizard-shell,
+  .wizard-panel {
+    display: grid;
+    grid-template-columns: 1fr !important;
+    min-height: auto;
+  }
+
+  .wizard-steps {
+    order: -1;
+    margin: 0 -0.75rem;
+    padding: 0 0.75rem 0.2rem;
+  }
+
+  .wizard-steps button {
+    flex: 0 0 auto;
+  }
+
+  .calendar-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .day-card {
+    min-height: auto;
+  }
+
+  .event {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+  }
+
+  .mobile-bottom-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.25rem;
+    padding: 0.45rem 0.45rem calc(0.45rem + env(safe-area-inset-bottom));
+    border-top: 1px solid rgba(24, 34, 30, 0.1);
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 -12px 30px rgba(24, 34, 30, 0.08);
+  }
+
+  .mobile-bottom-nav button {
+    display: grid;
+    place-items: center;
+    gap: 0.17rem;
+    border: 0;
+    border-radius: 0.85rem;
+    min-height: 3.4rem;
+    padding: 0.35rem 0.2rem;
+    color: #5e6b64;
+    background: transparent;
+    font-size: 0.69rem;
+    font-weight: 800;
+  }
+
+  .mobile-bottom-nav button.active {
+    color: #fff;
+    background: #17251f;
+  }
+
+  .mobile-bottom-nav .nav-icon {
+    display: grid;
+    place-items: center;
+    width: 1.35rem;
+    height: 1.35rem;
+    border-radius: 99rem;
+    background: rgba(23, 37, 31, 0.08);
+    font-size: 0.75rem;
+    font-weight: 900;
+  }
+
+  .mobile-bottom-nav button.active .nav-icon {
+    background: rgba(255, 255, 255, 0.16);
+  }
+
+  .mobile-bottom-nav .nav-alert {
+    position: absolute;
+    transform: translate(1.2rem, -1.15rem);
+    margin-left: 0;
+  }
+
+  .mobile-more-panel {
+    position: fixed;
+    inset: 0;
+    z-index: 39;
+    display: grid;
+    align-items: end;
+    padding: 1rem 0.75rem calc(5.2rem + env(safe-area-inset-bottom));
+    background: rgba(18, 28, 23, 0.34);
+  }
+
+  .mobile-more-card {
+    border: 1px solid rgba(24, 34, 30, 0.08);
+    border-radius: 1.2rem;
+    padding: 1rem;
+    background: #fff;
+    box-shadow: 0 18px 50px rgba(24, 34, 30, 0.22);
+  }
+
+  .mobile-more-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.55rem;
+    margin-top: 0.8rem;
+  }
+
+  .mobile-more-grid button {
+    display: flex;
+    justify-content: space-between;
+    border: 0;
+    border-radius: 0.9rem;
+    padding: 0.85rem 0.9rem;
+    color: #26332e;
+    background: #f1f5f2;
+    font-weight: 850;
+  }
+
+  .mobile-more-grid button.active {
+    color: #fff;
+    background: #17251f;
+  }
+
+  .bill-ledger-wrap {
+    display: none;
+  }
+
+  .mobile-bill-list {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .mobile-bill-card {
+    display: grid;
+    gap: 0.75rem;
+    border: 1px solid rgba(24, 34, 30, 0.08);
+    border-radius: 1rem;
+    padding: 0.9rem;
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 12px 30px rgba(24, 34, 30, 0.06);
+  }
+
+  .mobile-bill-card.needs-review {
+    border-color: rgba(205, 126, 40, 0.28);
+    background: #fff9ef;
+  }
+
+  .mobile-bill-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.75rem;
+    align-items: start;
+  }
+
+  .mobile-bill-name {
+    width: 100%;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    background: transparent;
+    color: #17251f;
+    font-size: 1.05rem;
+    font-weight: 850;
+  }
+
+  .mobile-bill-head small {
+    display: block;
+    margin-top: 0.25rem;
+    color: #69756f;
+    font-weight: 700;
+  }
+
+  .mobile-bill-head .row-end strong {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-size: 1.25rem;
+  }
+
+  .mobile-bill-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .mobile-bill-meta span {
+    border-radius: 99rem;
+    padding: 0.35rem 0.55rem;
+    background: #eef3f0;
+    color: #435149;
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  .mobile-bill-edit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.65rem;
+  }
+
+  .mobile-bill-more {
+    display: grid;
+    gap: 0.7rem;
+    border-top: 1px solid rgba(24, 34, 30, 0.08);
+    padding-top: 0.7rem;
+  }
+
+  .mobile-card-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .mobile-card-actions button,
+  .mobile-card-actions .mini-action {
+    width: 100%;
+    margin: 0;
+    border-radius: 0.8rem;
+  }
+
+  .csv-preview,
+  .debug-json,
+  .sim-log {
+    max-width: 100%;
+    font-size: 0.72rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .mobile-bottom-nav button {
+    font-size: 0.62rem;
+  }
+
+  .mobile-bottom-nav .nav-icon {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+
+  .mobile-bill-edit-grid,
+  .cycle-summary {
+    grid-template-columns: 1fr;
+  }
+}
