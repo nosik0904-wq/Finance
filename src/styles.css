@@ -869,6 +869,159 @@ h2 {
   padding: 1rem;
 }
 
+.bill-readable-list {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.bill-readable-card {
+  border: 1px solid rgba(24, 34, 30, 0.08);
+  border-radius: 0.65rem;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 10px 28px rgba(24, 34, 30, 0.055);
+  overflow: hidden;
+}
+
+.bill-readable-card.needs-review {
+  border-color: rgba(205, 126, 40, 0.32);
+  background: #fff9ef;
+}
+
+.bill-readable-card.locked-row {
+  background: #f3f7f4;
+}
+
+.bill-readable-row {
+  display: grid;
+  grid-template-columns: minmax(13rem, 1.7fr) minmax(7rem, 0.7fr) minmax(6.5rem, 0.65fr) minmax(7rem, 0.75fr) minmax(18rem, 1.6fr) 2.25rem;
+  gap: 0.75rem;
+  align-items: center;
+  min-height: 4.7rem;
+  padding: 0.75rem 0.85rem;
+  cursor: pointer;
+}
+
+.bill-readable-row:focus-visible {
+  outline: 3px solid rgba(31, 122, 77, 0.25);
+  outline-offset: -3px;
+}
+
+.bill-main,
+.bill-amount,
+.bill-due {
+  min-width: 0;
+}
+
+.bill-main strong,
+.bill-main small,
+.bill-amount strong,
+.bill-amount small,
+.bill-due span,
+.bill-due small {
+  display: block;
+}
+
+.bill-main strong {
+  overflow: hidden;
+  color: #17251f;
+  font-size: 0.98rem;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bill-main small,
+.bill-amount small,
+.bill-due small {
+  margin-top: 0.18rem;
+  color: #69756f;
+  font-size: 0.76rem;
+  font-weight: 750;
+}
+
+.bill-amount strong {
+  color: #17251f;
+  font-size: 1rem;
+}
+
+.bill-due span {
+  color: #26332e;
+  font-weight: 850;
+}
+
+.bill-row-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+
+.bill-row-actions .mini-action,
+.bill-detail-actions .mini-action {
+  width: 100%;
+  min-height: 2.15rem;
+  margin: 0;
+}
+
+.row-toggle {
+  width: 2.15rem;
+  height: 2.15rem;
+  border: 1px solid rgba(24, 34, 30, 0.1);
+  border-radius: 50%;
+  color: #26332e;
+  background: #f1f5f2;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.bill-detail-panel {
+  display: grid;
+  gap: 0.85rem;
+  border-top: 1px solid rgba(24, 34, 30, 0.08);
+  padding: 0.9rem;
+  background: rgba(248, 250, 247, 0.82);
+}
+
+.bill-detail-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.bill-detail-summary > div {
+  border: 1px solid rgba(24, 34, 30, 0.08);
+  border-radius: 0.55rem;
+  padding: 0.65rem;
+  background: #fff;
+}
+
+.bill-detail-summary small,
+.bill-detail-summary strong {
+  display: block;
+}
+
+.bill-detail-summary small {
+  color: #69756f;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.bill-detail-summary strong {
+  margin-top: 0.18rem;
+  color: #17251f;
+}
+
+.bill-edit-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(9rem, 1fr));
+  gap: 0.7rem;
+}
+
+.bill-detail-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .bill-ledger-wrap {
   overflow-x: auto;
   width: 100%;
@@ -2180,6 +2333,63 @@ h2 {
     display: none;
   }
 
+  .bill-readable-list {
+    gap: 0.75rem;
+  }
+
+  .bill-readable-card {
+    border-radius: 0.9rem;
+  }
+
+  .bill-readable-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.65rem;
+    min-height: 0;
+    padding: 0.85rem;
+  }
+
+  .bill-main {
+    grid-column: 1;
+  }
+
+  .bill-main strong {
+    white-space: normal;
+  }
+
+  .bill-amount,
+  .bill-due,
+  .bill-readable-row .status-badge {
+    justify-self: start;
+  }
+
+  .bill-amount {
+    grid-column: 1;
+  }
+
+  .bill-due {
+    grid-column: 1;
+  }
+
+  .bill-readable-row .status-badge {
+    grid-column: 1;
+  }
+
+  .bill-row-actions {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .row-toggle {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .bill-detail-summary,
+  .bill-edit-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
   .mobile-bill-list {
     display: grid;
     gap: 0.75rem;
@@ -2291,6 +2501,8 @@ h2 {
   }
 
   .mobile-bill-edit-grid,
+  .bill-detail-summary,
+  .bill-edit-grid,
   .cycle-summary {
     grid-template-columns: 1fr;
   }

@@ -13,7 +13,7 @@ import { applyBillPaid, bringBillForward, deferBill, ensureMortgageEntry, foreca
 import { appendActionLog, createStateSnapshot, normalizeAuditTrail } from "./logic/auditTrail";
 import { useCloudSync } from "./logic/useCloudSync";
 
-const today = "2026-04-29";
+const today = new Date().toISOString().split("T")[0];
 const storageKey = "household-finance-os";
 
 function normalizeStateForApp(input) {
