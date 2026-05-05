@@ -18,7 +18,7 @@ function cloudLabel(cloud) {
   if (!cloud?.configured) return "Local";
   if (cloud.saving) return "Saving";
   if (cloud.conflict) return "Refresh";
-  if (cloud.householdId) return `Cloud r${cloud.revision ?? "—"}`;
+  if (cloud.householdId) return `Cloud r${cloud.revision ?? "-"}`;
   if (cloud.session) return "Sign in";
   return "Local";
 }

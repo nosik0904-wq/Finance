@@ -10,6 +10,10 @@
   box-sizing: border-box;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   margin: 0;
   min-width: 320px;
@@ -20,10 +24,12 @@ button,
 input,
 select {
   font: inherit;
+  max-width: 100%;
 }
 
 button {
   cursor: pointer;
+  line-height: 1.15;
 }
 
 button:disabled {
@@ -53,6 +59,7 @@ button:disabled {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  min-width: 0;
 }
 
 .brand > span {
@@ -69,6 +76,8 @@ button:disabled {
 .brand strong,
 .brand small {
   display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .brand small,
@@ -99,6 +108,16 @@ button:disabled {
   color: #4f5d56;
   background: transparent;
   white-space: nowrap;
+}
+
+.nav-list button,
+.primary-action,
+.preset-row button,
+.wizard-actions button,
+.link-button,
+.danger-button,
+.mini-action {
+  min-width: 0;
 }
 
 .nav-list button.active,
@@ -176,16 +195,28 @@ p {
 
 h1 {
   margin-bottom: 0;
-  font-size: clamp(2.35rem, 6vw, 4.8rem);
-  line-height: 0.9;
+  font-size: clamp(2.15rem, 4.5vw, 3.65rem);
+  line-height: 0.98;
   font-weight: 850;
   letter-spacing: 0;
+  overflow-wrap: anywhere;
 }
 
 h2 {
   margin-bottom: 0.25rem;
   font-size: 1.08rem;
   font-weight: 820;
+  line-height: 1.18;
+  overflow-wrap: anywhere;
+}
+
+p,
+small,
+span,
+strong,
+label,
+button {
+  min-width: 0;
 }
 
 .pill,
@@ -198,6 +229,9 @@ h2 {
   color: #4f5c56;
   font-size: 0.82rem;
   font-weight: 750;
+  line-height: 1.1;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .metrics-grid {
@@ -227,6 +261,7 @@ h2 {
   color: #18221e;
   text-align: left;
   box-shadow: 0 12px 32px rgba(24, 34, 30, 0.06);
+  min-width: 0;
 }
 
 .insight-tile span,
@@ -236,9 +271,10 @@ h2 {
 }
 
 .insight-tile strong {
-  font-size: clamp(1.8rem, 6vw, 2.55rem);
+  font-size: clamp(1.65rem, 4vw, 2.2rem);
   font-weight: 860;
-  line-height: 1;
+  line-height: 1.04;
+  overflow-wrap: anywhere;
 }
 
 .insight-tile.open {
@@ -281,6 +317,7 @@ h2 {
 .metric-card {
   min-height: 7.6rem;
   padding: 1rem;
+  min-width: 0;
 }
 
 .metric-card p {
@@ -292,9 +329,10 @@ h2 {
 .metric-card strong {
   display: block;
   margin-bottom: 0.5rem;
-  font-size: clamp(1.7rem, 7vw, 2.35rem);
+  font-size: clamp(1.45rem, 3.5vw, 2.05rem);
   font-weight: 860;
-  line-height: 1;
+  line-height: 1.05;
+  overflow-wrap: anywhere;
 }
 
 .safe {
@@ -412,6 +450,7 @@ h2 {
 
 .hero-dashboard h1 {
   margin-bottom: 0.55rem;
+  max-width: 12ch;
 }
 
 .hero-dashboard p:not(.eyebrow) {
@@ -434,8 +473,9 @@ h2 {
 
 .health-score strong {
   display: block;
-  font-size: clamp(3rem, 12vw, 5rem);
-  line-height: 0.9;
+  font-size: clamp(2.6rem, 7vw, 4.2rem);
+  line-height: 0.96;
+  overflow-wrap: anywhere;
 }
 
 .report-grid {
@@ -466,8 +506,9 @@ h2 {
 .freedom-card strong {
   display: block;
   margin-top: 0.6rem;
-  font-size: clamp(2.2rem, 8vw, 3.8rem);
-  line-height: 0.95;
+  font-size: clamp(1.9rem, 5vw, 3.1rem);
+  line-height: 1;
+  overflow-wrap: anywhere;
 }
 
 .freedom-card p {
@@ -522,6 +563,13 @@ h2 {
   gap: 0.5rem;
   align-items: center;
   font-size: 0.82rem;
+  min-width: 0;
+}
+
+.chart-legend span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .chart-legend i,
@@ -627,9 +675,24 @@ h2 {
 .day-head,
 .bill-main {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
+  min-width: 0;
+}
+
+.panel-heading > *,
+.section-heading > *,
+.month-heading > *,
+.day-head > * {
+  min-width: 0;
+}
+
+.panel-heading span,
+.section-heading span,
+.month-heading span {
+  overflow-wrap: anywhere;
 }
 
 .item-list,
@@ -642,12 +705,14 @@ h2 {
 .ledger-row,
 .alert-row {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 0.8rem;
   padding: 0.75rem;
   border-radius: 0.8rem;
   background: #f8faf7;
+  min-width: 0;
 }
 
 .ledger-row[class*="payer-"] {
@@ -670,6 +735,7 @@ h2 {
 .ledger-row small,
 .row-end {
   display: block;
+  overflow-wrap: anywhere;
 }
 
 .row-end {
@@ -861,6 +927,7 @@ h2 {
   padding: 0.78rem 0.8rem;
   background: #fff;
   color: #17251f;
+  min-width: 0;
 }
 
 .bill-card {
@@ -937,7 +1004,7 @@ h2 {
 
 .bill-readable-row {
   display: grid;
-  grid-template-columns: minmax(13rem, 1.7fr) minmax(7rem, 0.7fr) minmax(6.5rem, 0.65fr) minmax(7rem, 0.75fr) minmax(18rem, 1.6fr) 2.25rem;
+  grid-template-columns: minmax(12rem, 1.7fr) minmax(7rem, 0.7fr) minmax(7.5rem, 0.72fr) minmax(7rem, 0.75fr) minmax(15rem, 1.45fr) 2.25rem;
   gap: 0.75rem;
   align-items: center;
   min-height: 4.7rem;
@@ -956,6 +1023,10 @@ h2 {
   min-width: 0;
 }
 
+.bill-readable-row .bill-main {
+  display: block;
+}
+
 .bill-main strong,
 .bill-main small,
 .bill-amount strong,
@@ -966,12 +1037,10 @@ h2 {
 }
 
 .bill-main strong {
-  overflow: hidden;
   color: #17251f;
   font-size: 0.98rem;
-  line-height: 1.15;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
 }
 
 .bill-main small,
@@ -981,6 +1050,7 @@ h2 {
   color: #69756f;
   font-size: 0.76rem;
   font-weight: 750;
+  overflow-wrap: anywhere;
 }
 
 .bill-amount strong {
@@ -997,6 +1067,7 @@ h2 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.45rem;
+  min-width: 0;
 }
 
 .bill-row-actions .mini-action,
@@ -1196,10 +1267,13 @@ h2 {
   border-radius: 0.8rem;
   padding: 0.8rem;
   background: #f8faf7;
+  min-width: 0;
+  overflow-x: auto;
 }
 
 .audit-box p {
   margin: 0;
+  overflow-wrap: anywhere;
 }
 
 .rhythm-strip {
@@ -1254,8 +1328,10 @@ h2 {
 }
 
 .feature-bill span {
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 4vw, 2rem);
   font-weight: 860;
+  line-height: 1.05;
+  overflow-wrap: anywhere;
 }
 
 .loan-split-bar {
@@ -1317,6 +1393,7 @@ h2 {
 
 .month-heading {
   display: flex;
+  flex-wrap: wrap;
   align-items: end;
   justify-content: space-between;
   gap: 1rem;
@@ -1326,7 +1403,7 @@ h2 {
 
 .month-heading h2 {
   margin: 0;
-  font-size: clamp(1.35rem, 3vw, 2rem);
+  font-size: clamp(1.25rem, 2.5vw, 1.7rem);
 }
 
 .month-heading span {
@@ -1612,7 +1689,9 @@ h2 {
 }
 
 .split-loans strong {
-  font-size: 1.8rem;
+  font-size: clamp(1.35rem, 3vw, 1.8rem);
+  line-height: 1.05;
+  overflow-wrap: anywhere;
 }
 
 .verdict {
@@ -1840,6 +1919,7 @@ h2 {
 
 .debug-row summary {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   gap: 1rem;
   cursor: pointer;
@@ -1900,6 +1980,9 @@ h2 {
   padding: 8px 10px;
   font-size: 0.82rem;
   cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .sync-chip.connected {
   border-color: rgba(82, 190, 128, 0.45);
@@ -2045,8 +2128,8 @@ h2 {
   }
 
   .page-header h1 {
-    font-size: clamp(2rem, 13vw, 3.1rem);
-    line-height: 0.95;
+    font-size: clamp(1.9rem, 10vw, 2.65rem);
+    line-height: 1;
   }
 
   .page-header .section-copy,
@@ -2091,7 +2174,9 @@ h2 {
   }
 
   .hero-dashboard h1 {
-    font-size: clamp(2.55rem, 18vw, 4rem);
+    max-width: none;
+    font-size: clamp(2.2rem, 12vw, 3.2rem);
+    line-height: 1;
   }
 
   .health-score {
@@ -2105,7 +2190,7 @@ h2 {
   .health-score strong {
     grid-row: 1 / span 2;
     grid-column: 2;
-    font-size: clamp(2.6rem, 18vw, 4rem);
+    font-size: clamp(2.3rem, 12vw, 3.2rem);
   }
 
   .rhythm-strip {
@@ -2153,7 +2238,8 @@ h2 {
   .insight-tile strong {
     grid-row: 1 / span 2;
     grid-column: 2;
-    font-size: clamp(1.65rem, 9vw, 2.2rem);
+    max-width: 9rem;
+    font-size: clamp(1.35rem, 6.5vw, 1.85rem);
     text-align: right;
   }
 
@@ -2304,6 +2390,14 @@ h2 {
     background: transparent;
     font-size: 0.69rem;
     font-weight: 800;
+    overflow: hidden;
+  }
+
+  .mobile-bottom-nav button span:last-child {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .mobile-bottom-nav button.active {
@@ -2424,6 +2518,11 @@ h2 {
     width: 100%;
   }
 
+  .bill-row-actions .mini-action {
+    min-height: 2.65rem;
+    padding: 0.55rem 0.35rem;
+  }
+
   .row-toggle {
     grid-column: 2;
     grid-row: 1;
@@ -2536,12 +2635,29 @@ h2 {
 
 @media (max-width: 390px) {
   .mobile-bottom-nav button {
-    font-size: 0.62rem;
+    font-size: 0.6rem;
   }
 
   .mobile-bottom-nav .nav-icon {
-    width: 1.2rem;
-    height: 1.2rem;
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+
+  .mobile-bottom-nav {
+    gap: 0.15rem;
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+  }
+
+  .insight-tile {
+    grid-template-columns: 1fr;
+  }
+
+  .insight-tile strong {
+    grid-column: 1;
+    grid-row: auto;
+    max-width: none;
+    text-align: left;
   }
 
   .mobile-bill-edit-grid,
