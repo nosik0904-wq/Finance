@@ -874,17 +874,61 @@ h2 {
   gap: 0.7rem;
 }
 
+.bill-colour-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  align-items: center;
+}
+
+.bill-colour-key span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  border: 1px solid rgba(24, 34, 30, 0.08);
+  border-radius: 99rem;
+  padding: 0.42rem 0.68rem;
+  background: rgba(255, 255, 255, 0.82);
+  color: #4e5c55;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.bill-colour-key i {
+  width: 0.72rem;
+  height: 0.72rem;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(24, 34, 30, 0.06);
+}
+
 .bill-readable-card {
   border: 1px solid rgba(24, 34, 30, 0.08);
+  border-left-width: 0.38rem;
   border-radius: 0.65rem;
   background: rgba(255, 255, 255, 0.94);
   box-shadow: 0 10px 28px rgba(24, 34, 30, 0.055);
   overflow: hidden;
 }
 
+.bill-readable-card.payer-partnerA {
+  border-left-color: #1f7a4d;
+}
+
+.bill-readable-card.payer-partnerB {
+  border-left-color: #315c9f;
+}
+
 .bill-readable-card.needs-review {
   border-color: rgba(205, 126, 40, 0.32);
   background: #fff9ef;
+}
+
+.bill-readable-card.needs-review.payer-partnerA {
+  border-left-color: #1f7a4d;
+}
+
+.bill-readable-card.needs-review.payer-partnerB {
+  border-left-color: #315c9f;
 }
 
 .bill-readable-card.locked-row {

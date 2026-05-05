@@ -23,6 +23,7 @@ export default function Bills({ state, sim, updateBill, markPaid, deferBill, del
 
   const setNumber = (id, key, value) => updateBill(id, { [key]: Math.max(0, Number(value)) });
   const toggleExpanded = (id) => setExpanded(expanded === id ? "" : id);
+  const getBillOwner = (bill) => (bill.locked || bill.accountRule === "offset" ? "partnerA" : "partnerB");
 
   return (
     <section className="page-stack full-bleed-page">
@@ -39,15 +40,21 @@ export default function Bills({ state, sim, updateBill, markPaid, deferBill, del
         Auto means Kim's external account pays first. Carl's offset is overflow only when SWAN stays protected. Offset contributions are never treated as expenses.
       </div>
 
+      <div className="bill-colour-key" aria-label="Bill colour key">
+        <span><i className="partnerA" /> {getPartnerName(state, "A")} / Offset</span>
+        <span><i className="partnerB" /> {getPartnerName(state, "B")} / Bills</span>
+      </div>
+
       <div className="bill-readable-list" aria-label="Bill list">
         {rows.map((bill) => {
           const variance = getBillVariance(bill);
           const needsReview = ["flagged", "partial", "unable to pay", "deferred"].includes(bill.simulatedStatus || bill.status);
           const status = bill.simulatedStatus || bill.status;
           const payer = bill.paidBy || (bill.accountRule === "offset" ? getPartnerName(state, "A") : getPartnerName(state, "B"));
+          const owner = getBillOwner(bill);
           const isOpen = expanded === bill.id;
           return (
-            <article className={`bill-readable-card ${needsReview ? "needs-review" : ""} ${bill.locked ? "locked-row" : ""}`} key={bill.id}>
+            <article className={`bill-readable-card payer-${owner} ${needsReview ? "needs-review" : ""} ${bill.locked ? "locked-row" : ""}`} key={bill.id}>
               <div className="bill-readable-row" onClick={() => toggleExpanded(bill.id)} role="button" tabIndex={0} onKeyDown={(event) => {
                 if (event.key === "Enter" || event.key === " ") toggleExpanded(bill.id);
               }}>
@@ -61,7 +68,7 @@ export default function Bills({ state, sim, updateBill, markPaid, deferBill, del
                 </div>
                 <div className="bill-due">
                   <span>{shortDate(bill.dueDate)}</span>
-                  <small>{bill.recurrence}</small>
+                  <small>{payer} / {bill.recurrence}</small>
                 </div>
                 <StatusBadge status={status} />
                 <div className="bill-row-actions" onClick={(event) => event.stopPropagation()}>
